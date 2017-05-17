@@ -1,0 +1,22 @@
+{
+  "name": "eth_watcher",
+  "version": "1.0.0",
+  "description": "Watch an Ethereum contract for events",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "Ethereum",
+    "Events"
+  ],
+  "author": "Joran Kikke",
+  "license": "GPL-3.0",
+  "bin": {
+    "ethwatcher": "./index.js"
+  },
+  "dependencies": {
+    "chalk": "^1.1.3",
+    "commander": "^2.9.0"
+  }
+}
