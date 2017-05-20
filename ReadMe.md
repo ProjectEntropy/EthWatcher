@@ -11,6 +11,6 @@ This thing watches an ethereum address for Events, then returns them to STDOUT r
 
 ```
 ethwatcher "0x27dcf986bc1151b39ceadd53660e4af56b0d5f84" \
-  -event "NewPotato" \
-  -abi ./potatoes.abi
+  --event "NewPotato" \
+  --abi ./potatoes.abi
 ```
