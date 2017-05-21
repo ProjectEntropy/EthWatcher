@@ -18,7 +18,7 @@ program
   .arguments('<address>')
   .option('-e, --event <event>', 'The event name to watch for', '*')
   .option('-a, --abi <abi>', 'Path to the ABI definition')
-  .option('-f, --from <from>', 'Block to watch from', '0')
+  .option('-f, --from <from>', 'Block to watch from', 0)
   .option('-t, --to <to>', 'Block to watch until', 'latest')
   .option('-r, --rpc <rpc>', 'Address of RPC Ethereum Node', 'http://localhost:8545')
   // .option('-c, --command <command>', 'Command to run with event JSON as input', 'jq')
@@ -36,8 +36,6 @@ if(!program.silent)
   console.log(chalk.bold.cyan(`        To block: ${program.to}`))
   console.log(chalk.bold.cyan(`       for event: ${program.event}`))
   console.log(chalk.bold.cyan(`        with abi: ${program.abi}`))
-  //
-  // console.log(chalk.bold.yellow(`        output to: ${program.command}`))
 }
 
 var web3 = new Web3()
@@ -48,15 +46,12 @@ var contract = web3.eth.contract(abi)
 var contract_instance = contract.at(watch_address)
 
 function handle_event(error, result){
-  console.log(JSON.stringify(result))
-  // var cmd = program.command + " " + JSON.stringify(result)
-
-  // console.log(cmd)
-  //
-  // exec(cmd, function(error, stdout, stderr) {
-  //   // command output is in stdout
-  //   console.log(stdout)
-  // });
+  // Should we respond to this event?
+  if(program.event == '*' || result.event == program.event)
+  {
+    // Output json to console
+    console.log(JSON.stringify(result))
+  }
 }
 
 // Safety check this action name exists
@@ -68,13 +63,7 @@ else
 {
   // Begin watching
   var event_being_watched
-  if(program.event == "*")
-  {
-    event_being_watched = contract_instance.allEvents({}, {fromBlock: program.from, toBlock: program.to});
-  }
-  else
-  {
-    event_being_watched = contract_instance[program.event]({}, {fromBlock: program.from, toBlock: program.to});
-  }
+  event_being_watched = contract_instance.allEvents({}, {fromBlock: program.from, toBlock: program.to});
+
   event_being_watched.watch(handle_event);
 }
